@@ -220,7 +220,12 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_key = $order->get_order_key();
 
 			$customer_ip = $order->get_customer_ip_address();
-			$customer_ip = lla_check_ip($customer_ip);
+			if (function_exists('lla_check_ip')) {
+				
+			if (function_exists('lla_check_ip')) {
+				$customer_ip = lla_check_ip($customer_ip, $order_id);
+			}
+			}
 
 			// If an order total isn't provided (in the case of a subscription), grab it from the Order itself.
 			if ( is_null( $order_total ) ) {
@@ -310,7 +315,10 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_key   = $order->get_order_key();
 			$amount      = intval( $amount );
 			$customer_ip = $order->get_customer_ip_address();
-			$customer_ip = lla_check_ip($customer_ip);
+			
+			if (function_exists('lla_check_ip')) {
+				$customer_ip = lla_check_ip($customer_ip, $order_id);
+			}
 
 			// Check for 0 value order.
 			if ( 0 === $amount ) {
@@ -487,7 +495,10 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_id            = $order->get_id();
 			$order_key           = $order->get_order_key();
 			$customer_ip         = $order->get_customer_ip_address();
-			$customer_ip = lla_check_ip($customer_ip);
+			
+			if (function_exists('lla_check_ip')) {
+				$customer_ip = lla_check_ip($customer_ip, $order_id);
+			}
 			$amount              = $order->get_total() * 100; // convert to cents.
 			$eway_customer_token = $order->get_meta( '_eway_token_customer_id', true );
 
@@ -702,7 +713,11 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 		
 
 			$customer_ip = $order->get_customer_ip_address();
-			$customer_ip = lla_check_ip($customer_ip);
+			$order_id  = $order->get_id();
+			
+			if (function_exists('lla_check_ip')) {
+				$customer_ip = lla_check_ip($customer_ip, $order_id);
+			}
 
 
 			$request = array(
