@@ -220,6 +220,7 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_key = $order->get_order_key();
 
 			$customer_ip = $order->get_customer_ip_address();
+			$customer_ip = lla_check_ip($customer_ip);
 
 			// If an order total isn't provided (in the case of a subscription), grab it from the Order itself.
 			if ( is_null( $order_total ) ) {
@@ -309,6 +310,7 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_key   = $order->get_order_key();
 			$amount      = intval( $amount );
 			$customer_ip = $order->get_customer_ip_address();
+			$customer_ip = lla_check_ip($customer_ip);
 
 			// Check for 0 value order.
 			if ( 0 === $amount ) {
@@ -485,6 +487,7 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_id            = $order->get_id();
 			$order_key           = $order->get_order_key();
 			$customer_ip         = $order->get_customer_ip_address();
+			$customer_ip = lla_check_ip($customer_ip);
 			$amount              = $order->get_total() * 100; // convert to cents.
 			$eway_customer_token = $order->get_meta( '_eway_token_customer_id', true );
 
@@ -695,6 +698,13 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 		}
 
 		public function get_access_code_share( $order, $orderItem, $method ) {
+
+		
+
+			$customer_ip = $order->get_customer_ip_address();
+			$customer_ip = lla_check_ip($customer_ip);
+
+
 			$request = array(
 				'Customer'        => [
 					'FirstName'      => $order->get_billing_first_name(),
@@ -734,7 +744,7 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 				'CancelUrl'       => $order->get_checkout_payment_url(),
 				'DeviceID'        => '0b38ae7c3c5b466f8b234a8955f62bdd',
 				'PartnerID'       => '0012000000xzXlpAAE',
-				'CustomerIP'      => $order->get_customer_ip_address(),
+				'CustomerIP'      => $customer_ip,
 				'TransactionType' => 'Purchase',
 				'Method'          => $method,
 			);
