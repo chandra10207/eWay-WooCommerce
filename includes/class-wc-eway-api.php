@@ -220,12 +220,11 @@ if ( ! class_exists( 'WC_EWAY_API' ) ) {
 			$order_key = $order->get_order_key();
 
 			$customer_ip = $order->get_customer_ip_address();
-			if (function_exists('lla_check_ip')) {
-				
+			
 			if (function_exists('lla_check_ip')) {
 				$customer_ip = lla_check_ip($customer_ip, $order_id);
 			}
-			}
+			
 
 			// If an order total isn't provided (in the case of a subscription), grab it from the Order itself.
 			if ( is_null( $order_total ) ) {
